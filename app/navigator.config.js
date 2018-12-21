@@ -103,7 +103,7 @@ const MainTabBar = createBottomTabNavigator({
   Account: Views.Account
 }, {
   ...TAB_BAR_DEFAULT_OPTIONS,
-  initialRouteName: 'Find'
+  initialRouteName: 'Mine'
 })
 
 /* 将Header设置到Tabbar */
@@ -167,10 +167,10 @@ delete ExtraViews.Friends
 delete ExtraViews.Account
 const AppNavigator = createStackNavigator({ ...ExtraViews }, { ...STACKNAVIGATOR_DEFAULT_OPTIONS, initialRouteName: 'MainTabBar' })
 
-const ModalContainerNavigator = createStackNavigator({
+const IncludeModalContainerNavigator = createStackNavigator({
   Base: { screen: AppNavigator }
 }, { ...MODAL_DEFAULT_OPTIONS, initialRouteName: 'Base' })
 
-const AppContainer = createAppContainer(ModalContainerNavigator)
+const AppContainer = createAppContainer(IncludeModalContainerNavigator)
 
 export default AppContainer
