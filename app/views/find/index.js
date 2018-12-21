@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity, DeviceEventEmitter } from 'react-native'
 import { inject, observer } from 'mobx-react'
 
 @inject('account')
@@ -10,6 +10,11 @@ export default class FindScreen extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>find</Text>
+        <TouchableOpacity onPress={() => {
+          this.props.account.add()
+        }}>
+          <Text>Test !!</Text>
+        </TouchableOpacity>
       </View>
     )
   }
