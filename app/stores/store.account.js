@@ -4,13 +4,16 @@ import utils from '../utils'
 import { DeviceEventEmitter } from 'react-native'
 
 class account {
-  @observable bage: number = 6
+  @observable badge: number = 6
 
   @action.bound add () {
-    let newBage = this.bage
-    newBage++
-    this.bage = newBage
-    DeviceEventEmitter.emit('HEADERBAGE')
+    let newBadge = this.badge
+    newBadge++
+    this.badge = newBadge
+    utils.global.navigator.dispatch(NavigationActions.setParams({
+      params: { badge: newBadge },
+      key: 'Account'
+    }))
   }
 }
 

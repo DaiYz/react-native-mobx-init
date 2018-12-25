@@ -27,13 +27,19 @@ const TAB_BAR_DEFAULT_OPTIONS = {
       defaultHandler()
     }
     const tabBarIcon = ({ focused, tintColor }) => {
-      const { routeName } = navigation.state
+      const { routeName, params = {} } = navigation.state
+      const badge = params?.badge ? params.badge : Stores.account.badge
       let iconName
       if (routeName === 'Find') { iconName = iconPath.easy } else
       if (routeName === 'Video') { iconName = iconPath.video } else
       if (routeName === 'Mine') { iconName = iconPath.music } else
       if (routeName === 'Friends') { iconName = iconPath.friends } else {
-        iconName = iconPath.account
+        return <View style={{ flexDirection: 'row', paddingTop: 4, paddingRight: 4 }}>
+          <SvgIcon path={iconPath.account} size={22} fill={focused ? ['#d62804'] : ['#666']} />
+          <View style={{ backgroundColor: 'red', width: 14, height: 14, position: 'absolute', top: 0, right: 0, justifyContent: 'center', alignItems: 'center', borderRadius: 7 }}>
+            <Text style={{ color: '#fff', fontSize: 12 }}>{badge}</Text>
+          </View>
+        </View>
       }
       return (<SvgIcon path={iconName} size={22} fill={focused ? ['#d62804'] : ['#666']} />)
     }

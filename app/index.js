@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, DeviceEventEmitter } from 'react-native'
 import Stores from './stores'
 import { observer, Provider, inject } from 'mobx-react'
 import Splash from 'react-native-splash-screen'

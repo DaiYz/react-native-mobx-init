@@ -6,14 +6,13 @@ import { inject, observer } from 'mobx-react'
 @observer
 export default class FindScreen extends React.Component {
   render () {
-    console.log(this.props)
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>find</Text>
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity style={{marginTop: 20}} onPress={() => {
           this.props.account.add()
         }}>
-          <Text>Test !!</Text>
+          <Text>add Badge !!</Text>
         </TouchableOpacity>
       </View>
     )
