@@ -3,7 +3,8 @@ import { TouchableOpacity, Text, StyleSheet, Image, View } from 'react-native'
 import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation'
 import Material from 'react-native-vector-icons/MaterialIcons'
 import Views from './views'
-import { SvgIcon, iconPath } from './components/svgIcon'
+import SvgIcon from 'react-native-svg-iconfont'
+import * as iconPath from './source/svg/index'
 import Stores from './stores'
 const _HEADER_BACK_BUTTON = (navigation) => {
   const { routeName } = navigation.state
@@ -175,6 +176,7 @@ const AppNavigator = createStackNavigator({ ...ExtraViews }, { ...STACKNAVIGATOR
 
 const IncludeModalContainerNavigator = createStackNavigator({
   Base: { screen: AppNavigator }
+  /* add modal screen */
 }, { ...MODAL_DEFAULT_OPTIONS, initialRouteName: 'Base' })
 
 const AppContainer = createAppContainer(IncludeModalContainerNavigator)

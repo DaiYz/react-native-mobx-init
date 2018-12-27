@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, DeviceEventEmitter } from 'react-native'
-import { SvgIcon, iconPath } from '../../components/svgIcon'
 import utils from '../../utils'
 import Stores from '../../stores'
 export default class AccountScreen extends React.Component {
