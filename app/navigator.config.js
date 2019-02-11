@@ -14,8 +14,7 @@ const _HEADER_BACK_BUTTON = (navigation) => {
     style={{ top: 1, width: 54, paddingLeft: 15, justifyContent: 'center', alignItems: 'flex-start' }}
     onPress={() => navigation.goBack()}
   >
-    {/* <Image source={images.goBack} /> */}
-    <Material name={'keyboard-arrow-left'} size={30} color={(routeName === 'MainTabBar') || (routeName === 'MyFavView') ? utils.global.store.app.theme.titleColor : '#333'} />
+    <Material name={'keyboard-arrow-left'} size={30} color={'#333'} />
   </TouchableOpacity>)
 }
 const MODAL_DEFAULT_OPTIONS = {
