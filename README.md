@@ -21,9 +21,13 @@
  
  yarn install
  
-react-native link
+ run android
  
- run ios (android)
+ cd ios
+ 
+ pod install
+ 
+  run ios
  ```
  **特别注意**   请尽量使用yarn代替npm操作
  
