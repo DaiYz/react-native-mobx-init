@@ -31,7 +31,7 @@ const TAB_BAR_DEFAULT_OPTIONS = {
       const { routeName, params = {} } = navigation.state
       const badge = params?.badge ? params.badge : Stores.account.badge
       let iconName
-      if (routeName === 'Find') { iconName = focused ? iconPath.easy : iconPath.video } else
+      if (routeName === 'Find') { iconName = iconPath.easy } else
       if (routeName === 'Video') { iconName = iconPath.video } else
       if (routeName === 'Mine') { iconName = iconPath.music } else
       if (routeName === 'Friends') { iconName = iconPath.friends } else {
@@ -128,7 +128,7 @@ MainTabBar.navigationOptions = ({ navigation }) => {
   const { state = {} } = navigation
   const { index = 0 } = state
   return {
-    headerTitle: <View><Text>345</Text></View>,
+    headerTitle: <View style={{ flex: 1, alignItems: 'center' }}><Text>345</Text></View>,
     headerStyle: {
       backgroundColor: '#ce3232',
       shadowOffset: { width: 0, height: 0 },
@@ -141,21 +141,19 @@ MainTabBar.navigationOptions = ({ navigation }) => {
     headerTintColor: '#fff',
     headerTitleStyle: { fontSize: 17, fontWeight: '600' },
     headerLeft: (
-      index === 4 ? null
-        : <TouchableOpacity
-          activeOpacity={0.7}
-          style={{ top: 1,
-            width: 54,
-            paddingRight: 18,
-            justifyContent: 'center',
-            alignItems: 'flex-end'
-          }}
-          onPress={() => {}
-          }
-        >
-
-          <SvgIcon path={index === 0 ? iconPath.identify : iconPath.cloud} size={24} fill={['#fff']} />
-        </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={{ top: 1,
+          width: 54,
+          paddingRight: 18,
+          justifyContent: 'center',
+          alignItems: 'flex-end'
+        }}
+        onPress={() => {}
+        }
+      >
+        {index === 4 ? null : <SvgIcon path={index === 0 ? iconPath.identify : iconPath.cloud} size={24} fill={['#fff']} />}
+      </TouchableOpacity>
     ),
     headerRight: (
       <TouchableOpacity
