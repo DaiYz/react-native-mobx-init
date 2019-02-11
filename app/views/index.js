@@ -5,4 +5,5 @@ Screens.Mine = require('./mine').default
 Screens.Friends = require('./friends').default
 Screens.Account = require('./account').default
 Screens.Login = require('./login').default
+Screens.Loading = require('./load').default
 export default Screens

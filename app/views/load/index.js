@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, ActivityIndicator } from 'react-native'
 
-export default class MineScreen extends React.Component {
+export default class LoadingScreen extends React.Component {
   render () {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Mine!</Text>
+        <ActivityIndicator />
       </View>
     )
   }

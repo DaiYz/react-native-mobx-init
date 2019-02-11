@@ -106,6 +106,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
     }
     splits {
         abi {
@@ -137,10 +139,13 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-blur')
     compile project(':react-native-svg')
     compile project(':react-native-vector-icons')
     compile project(':react-native-splash-screen')
     compile project(':react-native-gesture-handler')
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-18'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-18'//没有使用特殊Header，可以不加这行
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

@@ -1,10 +1,11 @@
 import React from 'react'
 import { TouchableOpacity, Text, StyleSheet, Image, View } from 'react-native'
-import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation'
+import { createStackNavigator, createBottomTabNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation'
+import LinearGradient from 'react-native-linear-gradient'
 import Material from 'react-native-vector-icons/MaterialIcons'
 import Views from './views'
 import SvgIcon from 'react-native-svg-iconfont'
-import * as iconPath from './source/svg/index'
+import * as iconPath from './source/svg'
 import Stores from './stores'
 const _HEADER_BACK_BUTTON = (navigation) => {
   const { routeName } = navigation.state
@@ -31,7 +32,7 @@ const TAB_BAR_DEFAULT_OPTIONS = {
       const { routeName, params = {} } = navigation.state
       const badge = params?.badge ? params.badge : Stores.account.badge
       let iconName
-      if (routeName === 'Find') { iconName = iconPath.easy } else
+      if (routeName === 'Find') { iconName = focused ? iconPath.easy : iconPath.video } else
       if (routeName === 'Video') { iconName = iconPath.video } else
       if (routeName === 'Mine') { iconName = iconPath.music } else
       if (routeName === 'Friends') { iconName = iconPath.friends } else {
@@ -75,10 +76,20 @@ const TAB_BAR_DEFAULT_OPTIONS = {
 
 const STACKNAVIGATOR_DEFAULT_OPTIONS = {
   defaultNavigationOptions: ({ navigation }) => {
-    const { routeName } = navigation.state
+    const { routeName, params = {} } = navigation.state
+    const appTheme = params?.theme ? params.theme : Stores.app.theme
     let options = {
       headerTitle: (
         null
+      ),
+      headerBackground: (
+        (routeName === 'MainTabBar')
+          ? <LinearGradient
+            colors={appTheme.headerBg.slice()}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+          /> : null
       ),
       drawerLockMode: 'locked-closed',
       headerStyle: {
@@ -177,8 +188,14 @@ const AppNavigator = createStackNavigator({ ...ExtraViews }, { ...STACKNAVIGATOR
 const IncludeModalContainerNavigator = createStackNavigator({
   Base: { screen: AppNavigator }
   /* add modal screen */
-}, { ...MODAL_DEFAULT_OPTIONS, initialRouteName: 'Base' })
+}, { ...MODAL_DEFAULT_OPTIONS })
 
-const AppContainer = createAppContainer(IncludeModalContainerNavigator)
+const Base = createSwitchNavigator({
+  Load: ExtraViews.Loading,
+  App: IncludeModalContainerNavigator,
+  Auth: ExtraViews.Login
+}, { initialRouteName: 'Load' })
+
+const AppContainer = createAppContainer(Base)
 
 export default AppContainer

@@ -1,13 +1,37 @@
 import React, { Component } from 'react'
-import { View, Text, DeviceEventEmitter } from 'react-native'
+import { View, Text, AsyncStorage } from 'react-native'
 import Stores from './stores'
 import { observer, Provider, inject } from 'mobx-react'
-import Splash from 'react-native-splash-screen'
+import { create } from 'mobx-persist'
 import Navigator from './navigator.config'
 import utils from './utils'
-import { createAppContainer, createStackNavigator, NavigationActions } from 'react-navigation'
 
+const hydrate = create({ storage: AsyncStorage })
+
+// 在正式环境中清空console.log()
+if (!__DEV__) {
+  global.console = {
+    info: () => {
+    },
+    log: () => {
+    },
+    warn: () => {
+    },
+    error: () => {
+    }
+  }
+}
+
+@inject('app', 'account')
+@observer
 class HomeScreen extends Component {
+  async componentDidMount () {
+    const { app, account } = this.props
+    await hydrate('authToken', account)
+    await hydrate('appTheme', app)
+    app.init(account.authToken, app.appTheme)
+  }
+
   render () {
     return (
       <View style={{ flex: 1 }}>
