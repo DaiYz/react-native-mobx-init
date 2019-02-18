@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "build": "cd node_modules/react-native/third-party/glog-0.3.5/ && ../../scripts/ios-configure-glog.sh",
-    "test": "jest",
-    "postinstall": "sh ./node_scripts/ios/pre-build.sh"
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.18.0",
