@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TouchableOpacity, ScrollView, StyleSheet, Text, Dimensions, findNodeHandle, FlatList, Modal, Image, TextInput, Keyboard } from 'react-native'
+import { View, TouchableOpacity, FlatList, StyleSheet, Text, Dimensions, findNodeHandle, Image, TextInput, Keyboard } from 'react-native'
 import { inject, observer } from 'mobx-react'
 import {Svg} from 'react-native-svg'
 import testData from '../../test'
@@ -13,12 +13,13 @@ const images = [{
 }]
 
 const {height, width} = Dimensions.get('window')
-@inject('account')
+@inject('account', 'find')
 @observer
 export default class FindScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onEndReachedCalledDuringMomentum = true
     this.state = {
       data: [
         {backgroundColor: "red"},
@@ -68,45 +69,51 @@ export default class FindScreen extends React.Component {
     }
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (e) => {console.log(e, 'show')})
     this.keyboardWillChangeListener = Keyboard.addListener('keyboardWillChangeFrame', (e) => {console.log(e, 'change')})
-
+    await this.props.find.getList()
   }
 
   _renderItem ({item, index}) {
     return (
       <View style={styles.slide}>
-        <Text style={styles.title}>{ item.title }</Text>
-        <Image source={{uri: item.posters.thumbnail}} style={{width: 50, height: 50}}/>
+        <Image source={{uri: item.logo}} style={{width: 80, height: 80}}/>
+        <Text>{item.name}</Text>
       </View>
     );
   }
 
   imageLoaded =() => {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+    this.setState({ viewRef: findNodeHandle(this._carousel) });
   }
 
   onPress = () => {
     this.setState({show: true})
   }
 
+  loadMore = async() => {
+    const {find} = this.props
+    console.log(this.onEndReachedCalledDuringMomentum)
+    if (find.list.length < 10 || find.loading || this.onEndReachedCalledDuringMomentum) return null
+    await find.getList(true)
+    this.onEndReachedCalledDuringMomentum = true;
+  }
+
   render () {
+    const {find} = this.props
     return (
       <View style={{flex: 1}}>
-        <TextInput
-          placeholder={'11111'}
-            style={{width, height: 40}}
-        />
-
-        <Carousel
-          loop
-          ref={(c) => { this._carousel = c; }}
-          data={testData.movies}
-          renderItem={this._renderItem}
-          sliderWidth={width}
-          itemWidth={200}
-        />
+       <FlatList
+         refreshing={find.loading}
+         onRefresh={async()=> await find.getList()}
+         onEndReachedThreshold={0.2}
+         onEndReached={this.loadMore}
+         keyExtractor={(item, index) => `${index}`}
+         data={find.list}
+         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false }}
+         renderItem={this._renderItem}
+       />
       </View>
     )
   }
@@ -116,11 +123,12 @@ export default class FindScreen extends React.Component {
 const styles = StyleSheet.create({
   wrapper: {
   },
-  slide1: {
+  slide: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#9DD6EB',
+    marginVertical: 20
   },
   slide2: {
     flex: 1,
